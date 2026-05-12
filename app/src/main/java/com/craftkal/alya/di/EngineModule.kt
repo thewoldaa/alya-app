@@ -44,10 +44,17 @@ object EngineModule {
 
     @Provides
     @Singleton
+    fun provideDayProfile(): com.craftkal.alya.core.personality.EmotionalDayProfile {
+        return com.craftkal.alya.core.personality.DayProfileGenerator.generate(java.time.LocalDate.now())
+    }
+
+    @Provides
+    @Singleton
     fun provideAlyaBrain(
         sessionMemory: SessionMemory,
         intentClassifier: IntentClassifier,
-        responseSelector: ResponseSelector
+        responseSelector: ResponseSelector,
+        dayProfile: com.craftkal.alya.core.personality.EmotionalDayProfile
     ): AlyaBrain {
         return AlyaBrain(
             preProcessor = TextPreProcessor(),
@@ -55,7 +62,9 @@ object EngineModule {
             entityExtractor = EntityExtractor(),
             ruleEngine = RuleEngine(sessionMemory),
             responseSelector = responseSelector,
-            sessionMemory = sessionMemory
+            sessionMemory = sessionMemory,
+            dayProfile = dayProfile
         )
     }
+
 }

@@ -7,6 +7,7 @@ import com.craftkal.alya.core.memory.SessionMemory
 import com.craftkal.alya.data.db.dao.MessageDao
 import com.craftkal.alya.data.db.entities.MessageEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,9 +18,11 @@ class ChatViewModel @Inject constructor(
     private val sessionMemory: SessionMemory
 ) : ViewModel() {
 
-    val messages: LiveData<List<Message>> = messageDao.getAllMessages().map { entities ->
-        entities.map { Message(it.text, it.isUser, it.timestamp) }
-    }.asLiveData()
+    val messages: LiveData<List<Message>> = messageDao.getAllMessages()
+        .map { entities ->
+            entities.map { Message(it.text, it.isUser, it.timestamp) }
+        }
+        .asLiveData()
 
     private val _isThinking = MutableLiveData<Boolean>(false)
     val isThinking: LiveData<Boolean> = _isThinking

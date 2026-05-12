@@ -1,7 +1,7 @@
 package com.craftkal.alya.core.personality
 
 import java.time.LocalDate
-import java.util.Random
+import kotlin.random.Random
 
 enum class DayMood {
     MOOD_CERIA, MOOD_BIASA, MOOD_MELLOW, MOOD_MAGER
